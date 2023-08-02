@@ -17,15 +17,17 @@ export async function getTop(): Promise<Array<Number>> {
   return data;
 }
 
+
+
 export interface HackerPost {
-  by : String;
+  by : string;
   descendants : Number;
   id : Number;
   kids : Array<Number>;
   score : Number;
   time : Number;
-  title : String;
-  type : String;
-  url : String;
-  text?: String;
+  title : string;
+  type : string;
+  url : string;
+  text?: string;
  }
