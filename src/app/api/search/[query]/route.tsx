@@ -11,7 +11,7 @@ export async function GET(
   const response = await fetch(url);
   const { hits } = await response.json();
   console.log(hits);
-  const posts = hits.map((post) => ({
+  const posts = hits.map((post: Record<string, unknown>) => ({
     by : post.author,
     descendants: "",
     id : post.objectId,
