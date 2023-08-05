@@ -5,14 +5,14 @@ export { NextResponse } from 'next/server'
 export const hackerURL = "https://hacker-news.firebaseio.com/v0";
 export const postPath = "item";
 
-export async function getPost(url:string): Promise<NextResponse<HackerPost>> {
+export async function getPost(url:string): Promise<HackerPost> {
   const response = await fetch(url);
   let data = await response.json();
   const { type, description, image } = await getOGData(data.url);
   data['type'] = type ?? data['type'];
   data['text'] = description ?? data['text'];
   data['image'] = image;
-  return NextResponse.json(data);
+  return data;
 }
 
 export async function getTop(): Promise<Array<Number>> {

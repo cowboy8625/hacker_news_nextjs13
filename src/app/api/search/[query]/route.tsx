@@ -10,7 +10,6 @@ export async function GET(
   const url = `https://hn.algolia.com/api/v1/search?query=${params.query}`;
   const response = await fetch(url);
   const { hits } = await response.json();
-  console.log(hits);
   const posts = hits.map((post: Record<string, unknown>) => ({
     by : post.author,
     descendants: "",
