@@ -15,7 +15,7 @@ import {
 export async function GET(
   request: Request,
   { params } : { params : { id : string } },
-) : Promise<NextResponse<HackerPost>> {
+) : Promise<NextResponse<HackerPost | null>> {
   const path = `./cache/${params.id}`;
   try {
     await stat(path);
@@ -23,8 +23,12 @@ export async function GET(
     return NextResponse.json(JSON.parse(data.toString()));
   } catch(e) {
     const url = `${hackerURL}/${postPath}/${params.id}.json`;
-    const data = await getPost(url);
-    await writeFile(path, JSON.stringify(data));
-    return NextResponse.json(data);
+    try {
+      const data = await getPost(url);
+      await writeFile(path, JSON.stringify(data));
+      return NextResponse.json(data);
+    } catch(e) {
+      return NextResponse.json(null)
+    }
   }
 }

@@ -1,10 +1,9 @@
-import Home from './components/Home';
-import MainPage from './components/MainPage';
+import HackerTopPost from './components/HackerTopPost';
 
 export default async function Page() {
   return (
     <>
-      <MainPage/>
+      <HackerTopPost/>
     </>
   );
 }

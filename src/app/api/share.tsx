@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server'
 import ogs from 'open-graph-scraper';
+import { inspect } from 'util';
 export { NextResponse } from 'next/server'
 
 export const hackerURL = "https://hacker-news.firebaseio.com/v0";
@@ -8,7 +9,15 @@ export const postPath = "item";
 export async function getPost(url:string): Promise<HackerPost> {
   const response = await fetch(url);
   let data = await response.json();
-  const { type, description, image } = await getOGData(data.url);
+  let { type, description, image } = await getOGData(data.url);
+
+  if (image) {
+    const imageResponse = await fetch(image, { method: 'HEAD' });
+    if (imageResponse.status === 404) {
+      image = undefined;
+    }
+  }
+
   data['type'] = type ?? data['type'];
   data['text'] = description ?? data['text'];
   data['image'] = image;
@@ -55,7 +64,7 @@ export interface HackerPost {
   url : string;
   text? : string;
   image? : string;
- }
+}
 
 interface OgData {
   type?: string;
