@@ -19,7 +19,7 @@ export default function ArticleContent({
     type,
     url,
     text="",
-    image="",
+    image=undefined,
   },
   ...props
 }: Props): ReactNode {
