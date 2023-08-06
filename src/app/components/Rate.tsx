@@ -1,10 +1,13 @@
 'use client';
-import { ReactNode, useMemo, useState, PropsWithChildren } from "react";
+
+import { ReactNode, useMemo, useEffect, useState, PropsWithChildren } from "react";
 import PropTypes from "prop-types";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faStar } from "@fortawesome/free-solid-svg-icons";
+import { useSession } from "next-auth/react";
 
 interface Props extends PropsWithChildren<any>{
+  postId: number;
   onRating?: (_:number)=>void;
   count?: number;
   rating?: number;
@@ -15,6 +18,7 @@ interface Props extends PropsWithChildren<any>{
 }
 
 export default function Rate({
+  postId = undefined,
   onRating = (_:number)=>{},
   count = 5,
   rating = 0,
@@ -24,6 +28,36 @@ export default function Rate({
   }
 } : Props): ReactNode {
   const [hoverRating, setHoverRating] = useState(0);
+  const {data: session } = useSession();
+
+  async function updateOnLoad(): void {
+    const res = await fetch(`http://localhost:3000/api/rating/${postId}`);
+    const data = await res.json();
+    console.log("loaded rating", data);
+    onRating(data);
+  }
+
+  useEffect(() => {updateOnLoad()}, []);
+
+  async function updateOnRating(idx: number): void {
+    console.log("info: ", {
+      authorId: session.user.id,
+      rating: idx,
+      hackerPostId: postId,
+    });
+    const res = await fetch("http://localhost:3000/api/rating", {
+      method: "POST",
+      headers: {
+        "authorization": session.user.accessToken,
+      },
+      body: JSON.stringify({
+        authorId: session.user.id,
+        rating: idx,
+        hackerPostId: postId,
+      }),
+    });
+    onRating(idx);
+  }
 
   const getColor = (index: number) => {
     if (hoverRating >= index) {
@@ -44,7 +78,7 @@ export default function Rate({
           key={idx}
           className="cursor-pointer"
           icon={faStar}
-          onClick={() => onRating(idx)}
+          onClick={() => updateOnRating(idx)}
           style={{ color: getColor(idx) }}
           onMouseEnter={() => setHoverRating(idx)}
           onMouseLeave={() => setHoverRating(0)}

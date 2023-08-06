@@ -40,7 +40,7 @@ export default function ArticleContent({
         {renderImage(image)}
         <p className="leading-relaxed">{text}</p>
         <div className="flex align-center gap-4">
-          <Rate rating={rating} onRating={setRateCallBack} />
+          <Rate postId={id.toString()} rating={rating} onRating={setRateCallBack} />
           <a className="hover:animate-bounce text-indigo-400 inline-flex items-center" href={url}>Learn More
             <svg className="w-4 h-4 ml-2" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2" fill="none" strokeLinecap="round" strokeLinejoin="round">
               <path d="M5 12h14"></path>
