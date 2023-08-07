@@ -18,7 +18,7 @@ interface Props extends PropsWithChildren<any>{
 }
 
 export default function Rate({
-  postId = undefined,
+  postId,
   onRating = (_:number)=>{},
   count = 5,
   rating = 0,
@@ -30,21 +30,19 @@ export default function Rate({
   const [hoverRating, setHoverRating] = useState(0);
   const {data: session } = useSession();
 
-  async function updateOnLoad(): void {
+  async function updateOnLoad() {
     const res = await fetch(`http://localhost:3000/api/rating/${postId}`);
     const data = await res.json();
-    console.log("loaded rating", data);
     onRating(data);
   }
 
   useEffect(() => {updateOnLoad()}, []);
 
-  async function updateOnRating(idx: number): void {
-    console.log("info: ", {
-      authorId: session.user.id,
-      rating: idx,
-      hackerPostId: postId,
-    });
+  async function updateOnRating(idx: number) {
+    if (!session) {
+      alert("you need to signin before you can do this action");
+      return;
+    }
     const res = await fetch("http://localhost:3000/api/rating", {
       method: "POST",
       headers: {

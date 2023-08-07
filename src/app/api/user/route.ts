@@ -18,7 +18,6 @@ export async function POST(request: Request) {
     }
   });
 
-  console.log("create user: ", user);
   const {password, ...result} = user;
   return new Response(JSON.stringify(result));
 }

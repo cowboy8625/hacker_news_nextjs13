@@ -14,7 +14,7 @@ export async function POST(request: Request) {
     );
   }
 
-  const body: RequestBody = await request.json();
+  const body = await request.json();
 
 
   const user = await prisma.user.findFirst({
@@ -25,6 +25,9 @@ export async function POST(request: Request) {
       ratings: true,
     }
   });
+  if (!user) {
+    return new Response(JSON.stringify(null));
+  }
   const data = user.ratings
       .filter(r => r.hackerPostId == Number(body.hackerPostId));
   if (data.length == 0) {

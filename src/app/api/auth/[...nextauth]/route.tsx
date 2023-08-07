@@ -70,7 +70,6 @@ const handler = NextAuth({
         password:  { label: "Password", type: "password" }
       },
       async authorize(credentials, req) {
-        console.log("NEW USER");
         const res = await fetch("http://localhost:3000/api/user", {
           method: "POST",
           headers: {

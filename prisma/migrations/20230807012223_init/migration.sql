@@ -7,6 +7,15 @@ CREATE TABLE "User" (
 );
 
 -- CreateTable
+CREATE TABLE "Comment" (
+    "id" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+    "hackerPostId" INTEGER NOT NULL,
+    "content" TEXT NOT NULL,
+    "userId" INTEGER,
+    CONSTRAINT "Comment_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User" ("id") ON DELETE SET NULL ON UPDATE CASCADE
+);
+
+-- CreateTable
 CREATE TABLE "Rating" (
     "id" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
     "hackerPostId" INTEGER NOT NULL,

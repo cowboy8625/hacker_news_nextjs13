@@ -11,11 +11,20 @@ datasource db {
 }
 
 model User {
-  id       Int      @id @default(autoincrement())
-  email    String   @unique
-  name     String?
-  password String
+  id        Int      @id @default(autoincrement())
+  email     String   @unique
+  name      String?
+  password  String
   ratings   Rating[]
+  comments  Comment[]
+}
+
+model Comment {
+  id           Int   @id @default(autoincrement())
+  hackerPostId Int
+  content      String
+  user         User? @relation(fields: [userId], references: [id])
+  userId       Int?
 }
 
 model Rating {

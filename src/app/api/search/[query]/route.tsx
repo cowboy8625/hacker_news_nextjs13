@@ -13,7 +13,7 @@ export async function GET(
   const posts = hits.map((post: Record<string, unknown>) => ({
     by : post.author,
     descendants: "",
-    id : post.objectId,
+    id : post.objectID,
     kids : [],
     score : 0,
     time : 0,
