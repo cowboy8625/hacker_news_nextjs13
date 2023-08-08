@@ -17,8 +17,10 @@ export async function GET(
   });
 
   const comments = data.map((c) => ({
+      id: c.id,
       content: c.content,
       author: c.user?.name ?? "unknown",
+      authorId: c.user?.id ?? 0,
   }));
 
   return NextResponse.json(comments);
