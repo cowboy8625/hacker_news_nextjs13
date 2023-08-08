@@ -47,16 +47,16 @@ export default function Comments({postId, reload}: Props): ReactNode {
     <div className="gap-4">
       {
         comments.map((c: ChallengeSiteComment) =>
-            <div key={c.id} className="flex flex-row gap-4">
+            <div key={c.id} className="flex flex-row gap-4 py-4">
               <label className="board-b">{c.author}</label>
-              <p className="bg-gray outline rounded gap-4 p-3">{c.content}</p>
+              <p className="bg-gray outline rounded p-4">{c.content}</p>
               {
-              (session?.user && session.user.id === Number(c.authorId)) ?
-              <form onSubmit={onSubmit}>
-                <input hidden name="commentId" defaultValue={c.id.toString()}/>
-                <input type="submit" value="delete"/>
-              </form> :
-              <div></div>
+                (session?.user && session.user.id === Number(c.authorId)) ?
+                <form onSubmit={onSubmit}>
+                  <input hidden name="commentId" defaultValue={c.id.toString()}/>
+                  <input type="submit" value="delete"/>
+                </form> :
+                <div></div>
               }
             </div>
         )
