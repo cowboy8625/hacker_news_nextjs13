@@ -21,6 +21,7 @@ export async function GET(
       content: c.content,
       author: c.user?.name ?? "unknown",
       authorId: c.user?.id ?? 0,
+      dateCreated: c.dateCreated.getTime(),
   }));
 
   return NextResponse.json(comments);

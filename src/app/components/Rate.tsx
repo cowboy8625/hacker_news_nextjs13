@@ -36,7 +36,7 @@ export default function Rate({
     onRating(data);
   }
 
-  useEffect(() => {updateOnLoad()}, []);
+  useEffect(() => {updateOnLoad()}, [onRating]);
 
   async function updateOnRating(idx: number) {
     if (!session) {

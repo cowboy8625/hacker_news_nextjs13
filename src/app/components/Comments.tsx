@@ -43,11 +43,19 @@ export default function Comments({postId, reload}: Props): ReactNode {
 
   useEffect(() => {getPostComments()},[loading, reload]);
 
+  function formatTime(timeNumber: number): string {
+    const d = new Date(timeNumber);
+    const time = d.toLocaleTimeString();
+    const date = d.toDateString();
+    return `${date} @ ${time}`;
+  }
+
   return (
     <div className="gap-4">
       {
         comments.map((c: ChallengeSiteComment) =>
             <div key={c.id} className="flex flex-row gap-4 py-4">
+              <label className="bard-b">{formatTime(c.dateCreated)}</label>
               <label className="board-b">{c.author}</label>
               <p className="bg-gray outline rounded p-4">{c.content}</p>
               {
