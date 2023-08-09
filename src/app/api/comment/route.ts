@@ -20,7 +20,7 @@ export async function POST(
 
   const body = await request.json();
 
-  const comment = await prisma.comment.update({
+  const comment = await prisma.comment.create({
     data: {
       hackerPostId: Number(body.hackerPostId),
       content: body.comment,
